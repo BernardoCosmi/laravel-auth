@@ -32,6 +32,18 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         
+        $val_data = $request->validated();
+
+        
+        $slug = Project::generateSlug($request->title);
+
+        $val_data['slug'] = $slug;
+        $val_data['thumb'] = $request->input('thumb');
+        $val_data['descriptions'] = $request->input('descriptions');
+        $val_data['languages'] = $request->input('languages');
+
+        $new_project = Project::create($val_data);
+        return redirect()->route('dashboardprojects.index');
     }
 
     /**
@@ -47,7 +59,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+
+        
+        return view('pages.projects.edit', compact('project'));
     }
 
     /**
@@ -55,7 +69,15 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $val_data = $request->validated();
+
+        $slug = Project::generateSlug($request->title);
+
+        $val_data['slug'] = $slug;
+
+        $project->update($val_data);
+
+        return redirect()->route('dashboardprojects.index');
     }
 
     /**
@@ -63,6 +85,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        
+        return redirect()->route('dashboardprojects.index');
     }
 }

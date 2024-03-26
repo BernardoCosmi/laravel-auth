@@ -5,8 +5,10 @@
 
         <h1>Inserisci un nuovo progetto</h1>
 
-        <form action="{{ route('dashboardprojects.store') }}" method="POST">
+        <form action="{{ route('dashboardprojects.update', $project->slug ) }}" method="POST">
             @csrf
+
+            @method('PUT')
         
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -18,6 +20,7 @@
                         @enderror"
                     name="title"
                     id="title"
+                    value="{{ old('title', $project->title)}}"
                 />
                 @error('title')
                     <div class="alert alert-danger mt-3">
@@ -36,6 +39,7 @@
                         @enderror"
                     name="thumb"
                     id="thumb"
+                    value="{{ old('title', $project->thumb)}}"
                 />
                 @error('thumb')
                     <div class="alert alert-danger mt-3">
@@ -53,7 +57,8 @@
                         @enderror" 
                     name="descriptions" 
                     id="descriptions" 
-                    rows="3"></textarea>
+                    rows="3">{{ old('title', $project->descriptions)}}
+                </textarea>
                 @error('descriptions')
                     <div class="alert alert-danger mt-3">
                         {{ $message }}
@@ -67,7 +72,9 @@
                     type="text"
                     class="form-control"
                     name="languages" 
-                    id="languages">
+                    id="languages"
+                    value="{{ old('title', $project->languages)}}"
+                    >
             </input>
                 @error('languages')
                     <div class="alert alert-danger mt-3">
@@ -86,6 +93,7 @@
                         @enderror"
                     name="slug"
                     id="slug"
+                    value="{{ old('title', $project->slug)}}"
                 />
                 @error('slug')
                     <div class="alert alert-danger mt-3">

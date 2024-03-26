@@ -19,7 +19,7 @@
                 </thead>
                 <tbody>
                     @foreach ($projects as $item)
-                    <tr class="">
+                    <tr class=" text-center">
                         <td>
                             <img src="{{ $item->thumb }}" alt="">
                         </td>
@@ -29,11 +29,11 @@
                         <td>{{ $item->languages }}</td>
                         {{-- <td>{{ $item->slug }}</td> --}}
                         <td>
-                            <a class="btn btn-primary" href=" {{ route('dashboardprojects.edit', $item->id ) }} ">
+                            <a class="btn btn-primary" href=" {{ route('dashboardprojects.edit', $item->slug ) }} ">
                                 Modifica
                             </a>
 
-                            <form method="POST" action=" {{route( 'dashboardprojects.destroy', $item->id )}} ">
+                            <form method="POST" action=" {{route( 'dashboardprojects.destroy', $item->slug )}} ">
 
                                 @csrf
                                 @method('DELETE')
