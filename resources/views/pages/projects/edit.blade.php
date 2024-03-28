@@ -3,9 +3,9 @@
 @section('content')
     <main class="container py-3">
 
-        <h1>Inserisci un nuovo progetto</h1>
+        <h1>Modifica: {{$project->title}}</h1>
 
-        <form action="{{ route('dashboardprojects.update', $project->slug ) }}" method="POST">
+        <form action="{{ route('dashboardprojects.update', $project->slug ) }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             @method('PUT')
@@ -30,22 +30,20 @@
             </div>
         
             <div class="mb-3">
-                <label for="thumb" class="form-label">Thumbnail Link</label>
-                <input
-                    type="text"
-                    class="form-control
-                        @error('thumb')
-                            is-invalid
-                        @enderror"
+                {{-- mostro la precedente immagine del post se esiste --}}
+                @if( $project->thumb )
+                <img src="{{ asset('/storage/' . $project->thumb) }}" alt="{{ $project->title }}" class="col-6">
+                @endif
+
+                <div class="mt-3">
+                    <label for="thumb">Carica una nuova immagine</label>
+                    <input
+                    type="file"
                     name="thumb"
                     id="thumb"
-                    value="{{ old('title', $project->thumb)}}"
-                />
-                @error('thumb')
-                    <div class="alert alert-danger mt-3">
-                        {{ $message }}
-                    </div>
-                @enderror
+                    class="form-control
+                        @error('thumb') is-invalid @enderror">
+                </div>
             </div>
         
             <div class="mb-3">

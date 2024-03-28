@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -38,9 +39,16 @@ class ProjectController extends Controller
         $slug = Project::generateSlug($request->title);
 
         $val_data['slug'] = $slug;
-        $val_data['thumb'] = $request->input('thumb');
         $val_data['descriptions'] = $request->input('descriptions');
         $val_data['languages'] = $request->input('languages');
+
+        if($request->hasFile('thumb')){
+            $img_path=Storage::disk('public')->put('project_images', $request->thumb);
+        
+            $val_data['thumb'] = $img_path;
+        }
+
+        // $val_data['thumb'] = $request->input('thumb');
 
         $new_project = Project::create($val_data);
         return redirect()->route('dashboardprojects.index');
@@ -51,7 +59,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view( 'pages.projects.show', compact('project'));
     }
 
     /**
@@ -75,6 +83,18 @@ class ProjectController extends Controller
 
         $val_data['slug'] = $slug;
 
+        if( $request->hasFile('thumb') ){
+            if( $project->thumb ){
+                Storage::delete($project->thumb);
+            }
+
+            $path = Storage::disk('public')->put('project_images', $request->thumb);
+
+            $val_data['thumb'] = $path;
+        }
+
+
+
         $project->update($val_data);
 
         return redirect()->route('dashboardprojects.index');
@@ -85,6 +105,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if( $project->thumb ){
+            Storage::delete($project->thumb);
+        }
+
         $project->delete();
         
         return redirect()->route('dashboardprojects.index');

@@ -5,7 +5,7 @@
 
         <h1>Inserisci un nuovo progetto</h1>
 
-        <form action="{{ route('dashboardprojects.store') }}" method="POST">
+        <form action="{{ route('dashboardprojects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
         
             <div class="mb-3">
@@ -29,7 +29,7 @@
             <div class="mb-3">
                 <label for="thumb" class="form-label">Thumbnail Link</label>
                 <input
-                    type="text"
+                    type="file"
                     class="form-control
                         @error('thumb')
                             is-invalid

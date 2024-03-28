@@ -9,7 +9,7 @@
         <div class="table-responsive">
             <table class="table">
                 <thead>
-                    <tr>
+                    <tr class=" text-center">
                         <th scope="col">Thumb</th>
                         <th scope="col">Id</th>
                         <th scope="col">Title</th>
@@ -21,10 +21,14 @@
                     @foreach ($projects as $item)
                     <tr class=" text-center">
                         <td>
-                            <img src="{{ $item->thumb }}" alt="">
+                            {{ $item->thumb }}
                         </td>
                         <td>{{ $item->id }}</td>
-                        <td>{{ $item->title }}</td>
+                        <td>
+                            <a href="{{ route('dashboardprojects.show', $item->slug)}}">
+                                {{ $item->title }}
+                            </a>
+                        </td>
                         <td>{{ $item->descriptions }}</td>
                         <td>{{ $item->languages }}</td>
                         {{-- <td>{{ $item->slug }}</td> --}}
